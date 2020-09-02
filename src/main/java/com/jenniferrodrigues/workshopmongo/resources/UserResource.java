@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jenniferrodrigues.workshopmongo.domain.Post;
 import com.jenniferrodrigues.workshopmongo.domain.User;
 import com.jenniferrodrigues.workshopmongo.dto.UserDTO;
 import com.jenniferrodrigues.workshopmongo.services.UserService;
@@ -40,6 +41,8 @@ public class UserResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
+	
+	
 	// @RequestMapping(value = "/{id}", method=RequestMethod.GET)
 	// public ResponseEntity<UserDTO> findById(@PathVariable String id) {
 	// User obj = service.findById(id);
@@ -80,5 +83,16 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	//Endpoint para retornar os posts de um usuário
+	@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+		// transforma 
+		User obj = service.findById(id);
+		// insere no banco de dados
+		
+		
+		// Retorna resposta vazia com codigo 201 e localizacao do novo recurso criado
+		return ResponseEntity.ok().body(obj.getPosts());
 
+	}
 }
