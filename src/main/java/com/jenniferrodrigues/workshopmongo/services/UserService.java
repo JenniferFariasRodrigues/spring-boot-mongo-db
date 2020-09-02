@@ -13,7 +13,7 @@ import com.jenniferrodrigues.workshopmongo.services.exception.ObjectNotFoundExce
 
 @Service
 public class UserService {
-	//O controlador acessa o repositorio
+	// O controlador acessa o repositorio
 	// instanciar automaticamente um objeto=autowired
 	@Autowired
 	private UserRepository repo;
@@ -22,25 +22,39 @@ public class UserService {
 		return repo.findAll();
 
 	}
-	
+
 	public User findById(String id) {
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
-		}
-	
-	//insercao de usuario com POST	
+	}
+
+	// insercao de usuario com POST
 	public User insert(User obj) {
 		return repo.insert(obj);
-		
+
 	}
-	
-	//delecao de usuario com DELETE
+
+	// delecao de usuario com DELETE
 	public void delete(String id) {
 		findById(id);
 		repo.deleteById(id);
 	}
-	
+
+	// Atualização de usuário com PUT
+	public User update(User obj) {
+		User newObj = findById(obj.getId());
+		//copia dados newObj para obj
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+		
+	}
+
 	public User fromDTO(UserDTO objDto) {
-		return new User(objDto.getId(), objDto.getName(),objDto.getEmail());
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
 }

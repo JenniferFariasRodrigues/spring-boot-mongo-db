@@ -68,4 +68,17 @@ public class UserResource {
 		// resposta convertido
 		return ResponseEntity.noContent().build();
 	}
+	
+	//Implementacao update do Atualização de usuário com PUT
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id) {
+		User obj = service.fromDTO(objDto);
+		//garante que o obj tem o Id da requisicao
+		obj.setId(id);
+		obj=service.update(obj);
+		// resposta convertido
+		return ResponseEntity.noContent().build();
+	}
+
+
 }
