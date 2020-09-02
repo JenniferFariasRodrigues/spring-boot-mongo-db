@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.jenniferrodrigues.workshopmongo.domain.Post;
 import com.jenniferrodrigues.workshopmongo.domain.User;
+import com.jenniferrodrigues.workshopmongo.dto.AuthorDTO;
 import com.jenniferrodrigues.workshopmongo.repository.PostRepository;
 import com.jenniferrodrigues.workshopmongo.repository.UserRepository;
 
@@ -37,12 +38,24 @@ public class Instantiation implements CommandLineRunner {
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		//instanciando obj do Post
-		Post post1 = new Post(null,sdf.parse("21/03/2018"), "Partiu vida nova!", "Vida nova inicianco em 3,2,1...", maria);
-		Post post2 = new Post(null,sdf.parse("21/03/2018"), "Bom dia!", "Pagina em branco", maria);
-		//Salvara no Mongodb
+		////instanciando obj do Post
+		//Post post1 = new Post(null,sdf.parse("21/03/2018"), "Partiu vida nova!", "Vida nova inicianco em 3,2,1...", maria);
+		//Post post2 = new Post(null,sdf.parse("21/03/2018"), "Bom dia!", "Pagina em branco", maria);
+		////Salvara no Mongodb
+		//userRepository.saveAll(Arrays.asList(maria,alex,bob));
+		//postRepository.saveAll(Arrays.asList(post1, post2));
+	
+		//Utilizando o authorDTO
+		//instanciando obj do Post///Salva primeiro
 		userRepository.saveAll(Arrays.asList(maria,alex,bob));
+		Post post1 = new Post(null,sdf.parse("21/03/2018"), "Partiu vida nova!", "Vida nova inicianco em 3,2,1...", new AuthorDTO( maria));
+		Post post2 = new Post(null,sdf.parse("21/03/2018"), "Bom dia!", "Pagina em branco", new AuthorDTO(maria));
+		//Salvara no Mongodb
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
+		
+		
+	
 	}
 
 }
