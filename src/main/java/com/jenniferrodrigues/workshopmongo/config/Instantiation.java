@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.jenniferrodrigues.workshopmongo.domain.Post;
 import com.jenniferrodrigues.workshopmongo.domain.User;
 import com.jenniferrodrigues.workshopmongo.dto.AuthorDTO;
+import com.jenniferrodrigues.workshopmongo.dto.CommentDTO;
 import com.jenniferrodrigues.workshopmongo.repository.PostRepository;
 import com.jenniferrodrigues.workshopmongo.repository.UserRepository;
 
@@ -50,6 +51,16 @@ public class Instantiation implements CommandLineRunner {
 		userRepository.saveAll(Arrays.asList(maria,alex,bob));
 		Post post1 = new Post(null,sdf.parse("21/03/2018"), "Partiu vida nova!", "Vida nova inicianco em 3,2,1...", new AuthorDTO( maria));
 		Post post2 = new Post(null,sdf.parse("21/03/2018"), "Bom dia!", "Pagina em branco", new AuthorDTO(maria));
+		
+		//Acrescentando comentários aos posts.Instanciando os comentarios
+		CommentDTO c1 = new CommentDTO("Boa viagem", sdf.parse("21/03/2020"), new AuthorDTO(alex));
+		CommentDTO c2 = new CommentDTO("Carp diem", sdf.parse("22/03/2020"), new AuthorDTO(bob));
+		CommentDTO c3 = new CommentDTO("Memento vivere", sdf.parse("23/03/2020"), new AuthorDTO(alex));
+		
+		//Instancia os posts
+		post1.getComment().addAll(Arrays.asList(c1,c2));
+		post2.getComment().addAll(Arrays.asList(c3));
+		
 		//Salvara no Mongodb
 		
 		postRepository.saveAll(Arrays.asList(post1, post2));

@@ -1,12 +1,15 @@
 package com.jenniferrodrigues.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.jenniferrodrigues.workshopmongo.dto.AuthorDTO;
+import com.jenniferrodrigues.workshopmongo.dto.CommentDTO;
 
 //Criando entity Post com User aninhado
 @Document
@@ -24,6 +27,9 @@ public class Post implements Serializable {
 
 	// Utilizando o AuthorDTO
 	private AuthorDTO author;
+
+	// Acrescentando comentários aos posts
+	private List<CommentDTO> comment = new ArrayList<>();
 
 	public Post() {
 
@@ -80,6 +86,14 @@ public class Post implements Serializable {
 	// public void setAuthor(User author) {
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
+	}
+
+	public List<CommentDTO> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<CommentDTO> comment) {
+		this.comment = comment;
 	}
 
 	@Override
