@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,23 +41,31 @@ public class UserResource {
 	}
 
 	// @RequestMapping(value = "/{id}", method=RequestMethod.GET)
-	//public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-	//User obj = service.findById(id);
+	// public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+	// User obj = service.findById(id);
 	// resposta convertido
-			//return ResponseEntity.ok().body(new UserDTO(obj));
+	// return ResponseEntity.ok().body(new UserDTO(obj));
 
-	//Para metodo POST
-	@RequestMapping( method=RequestMethod.POST)
+	// Para metodo POST
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) {
-		//transforma para DTO
+		// transforma para DTO
 		User obj = service.fromDTO(objDto);
-		//insere no banco de dados
+		// insere no banco de dados
 		obj = service.insert(obj);
 		// resposta convertido
-		//Pega o endereco do novo obj inserido
+		// Pega o endereco do novo obj inserido
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		//Retorna resposta vazia com codigo 201 e localizacao do novo recurso criado
+		// Retorna resposta vazia com codigo 201 e localizacao do novo recurso criado
 		return ResponseEntity.created(uri).build();
 
+	}
+
+	// End point para deletar por id
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		service.delete(id);
+		// resposta convertido
+		return ResponseEntity.noContent().build();
 	}
 }
