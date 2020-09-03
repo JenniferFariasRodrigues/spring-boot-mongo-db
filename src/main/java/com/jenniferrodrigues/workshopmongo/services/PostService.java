@@ -1,5 +1,6 @@
 package com.jenniferrodrigues.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,15 @@ public class PostService {
 		//Para testar no Postman
 		//http://localhost:8081/posts/titlesearch?text=bom%dia!
 		return repo.searchTitle(text);
+	}
+	
+	
+	//Consulta com varios criterios
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+		//adiciona 1 dia paa ler certinho
+		maxDate = new Date(maxDate.getTime()+ 24 * 60 * 60 * 1000);
+		return repo.fullSearch(text, minDate, maxDate);
+		
 	}
 
 }

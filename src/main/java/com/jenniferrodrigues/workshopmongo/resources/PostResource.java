@@ -1,6 +1,8 @@
 package com.jenniferrodrigues.workshopmongo.resources;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,8 @@ public class PostResource {
 		return ResponseEntity.ok().body(obj);
 
 	}
-	
-	//Consulta simples com query methods
+
+	// Consulta simples com query methods
 	@RequestMapping(value = "/{titlesearch}", method = RequestMethod.GET)
 	//O @RequestParam serve para colocar o ? no campo de busca da URL
 	//(value="text", defaultValue="") value="text" para o parametro reconhecer o text no campo URL do Postman
@@ -44,4 +46,30 @@ public class PostResource {
 		return ResponseEntity.ok().body(list);
 
 	}
+
+	// Consulta com varios argumentos
+	@RequestMapping(value = "/{fullsearch}", method = RequestMethod.GET)
+		//O @RequestParam serve para colocar o ? no campo de busca da URL
+		//(value="text", defaultValue="") value="text" para o parametro reconhecer o text no campo URL do Postman
+		// defaultValue="" retornara string vazia se o parametro nao for informado
+		public ResponseEntity<List<Post>> fullsearch(
+				@RequestParam(value="text", defaultValue="") String text, 
+				@RequestParam(value="minDate", defaultValue="") String minDate ,
+				@RequestParam(value="maxDate", defaultValue="") String maxDate)
+						
+						
+						
+				throws UnsupportedEncodingException, ParseException, com.sun.el.parser.ParseException {
+			//decodificar o texto
+			text = URL.decodeParam(text);
+			
+			//Caso ocorra um problema aparecera Date(0)=data do sist Java ou Date() data atual do sistema
+			Date min = URL.convertDate(minDate, new Date(0));
+			Date max = URL.convertDate(maxDate, new Date());
+			List<Post> list = service.fullSearch(text, min, max);
+			
+			// resposta convertido
+			return ResponseEntity.ok().body(list);
+
+		}
 }
