@@ -26,7 +26,12 @@ public class PostService {
 	//Consulta simples com query methods
 	//criar o método de busca
 	public List<Post> findByTitle(String text){
-		return repo.findByTitleContaining(text);
+		//return repo.findByTitleContaining(text);
+		
+		//Consulta simples com @Query
+		//Para testar no Postman
+		//http://localhost:8081/posts/titlesearch?text=bom%dia!
+		return repo.searchTitle(text);
 	}
 
 }
